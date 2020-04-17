@@ -9,7 +9,7 @@ spec:
     - name: uses-private-image
       image: svaddaram/paragraphanalytics:latest
       imagePullPolicy: Always
+      ports:
+        - containerPort: 65000
   imagePullSecrets: 
     - name: regcred
-  ports:
-        - containerPort: 65000
