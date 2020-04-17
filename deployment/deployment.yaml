@@ -1,7 +1,9 @@
-apiVersion: v1 
-kind: Pod 
+apiVersion: v1
+kind: Pod
 metadata:
   name: paragraphanalytics
+  labels:
+    app: web
 spec:
   containers:
     - name: uses-private-image
@@ -10,5 +12,4 @@ spec:
   imagePullSecrets: 
     - name: regcred
   ports:
-    - containerPort :65000
-      
+        - containerPort: 65000
