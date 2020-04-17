@@ -1,0 +1,12 @@
+apiVersion: v1 
+kind: Pod 
+metadata:
+  name: paragraphanalytics
+spec:
+  containers:
+    - name: uses-private-image
+      image: svaddaram/paragraphanalytics:latest
+      imagePullPolicy: Always
+  imagePullSecrets: 
+    - name: regcred
+      
