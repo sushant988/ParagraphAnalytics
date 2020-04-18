@@ -12,4 +12,9 @@ public class InvalidRequestException extends RuntimeException {
 		// TODO Auto-generated constructor stub
 		super(message);
 	}
+	
+	  @Override
+	    public synchronized Throwable fillInStackTrace() {
+	        return this;
+	    }
 }
