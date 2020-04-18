@@ -30,8 +30,6 @@ public class ParagraphAnalyticsServiceImpl implements ParagraphAnalyticsService 
 		
 		LOGGER.debug("Started process to find number of sentences in a paragraph");
 		String sentenceDelimiter = ".";
-		System.out.println(paragrah.length());
-		System.out.println(paragrah.replace(sentenceDelimiter, "").length());
 		int sentenceCounter = paragrah.length() - paragrah.replace(sentenceDelimiter, "").length();
 		LOGGER.debug("Number of . found in the paragrah are "+sentenceCounter);
 
@@ -50,7 +48,6 @@ public class ParagraphAnalyticsServiceImpl implements ParagraphAnalyticsService 
 		int paraLength = paragraph.length();
 		int startingIndex = 0, endingIndex = 0;
 		int max_length = 0, max_start_index = 0;
-		System.out.println(paragraph); // 
 		LOGGER.debug("Loop while input string is not empty");
 		while (endingIndex <= paraLength) {
 			if (endingIndex < paraLength && paragraph.charAt(endingIndex) != ' ') {
