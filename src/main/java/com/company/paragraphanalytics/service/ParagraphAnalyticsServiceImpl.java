@@ -2,14 +2,10 @@ package com.company.paragraphanalytics.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.company.paragraphanalytics.dto.ParagraphAnalytics;
+import com.company.paragraphanalytics.util.ParagraphAnalyticsUtil;
 import com.company.paragraphanalytics.ParagraphanalyticsApplication;
 import com.company.paragraphanalytics.dto.Paragraph;
 
@@ -27,13 +24,13 @@ public class ParagraphAnalyticsServiceImpl implements ParagraphAnalyticsService 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ParagraphanalyticsApplication.class);
 
 	private Integer getSentencesCount(String paragrah) {
-
 		LOGGER.debug("Started process to find number of sentences in a paragraph");
-		String sentenceDelimiter = ".";
-		int sentenceCounter = paragrah.length() - paragrah.replace(sentenceDelimiter, "").length();
+		String sentenceDelimiter = ParagraphAnalyticsUtil.FULLSTOP;
+		int sentenceCounter = paragrah.length()
+				- paragrah.replace(sentenceDelimiter, ParagraphAnalyticsUtil.EMPTY).length();
 		LOGGER.debug("Number of . found in the paragrah are " + sentenceCounter);
 
-		if (paragrah.trim().endsWith(".")) {
+		if (paragrah.trim().endsWith(ParagraphAnalyticsUtil.FULLSTOP)) {
 			LOGGER.debug("Number of sentences found " + sentenceCounter);
 			return sentenceCounter;
 		}
@@ -44,13 +41,14 @@ public class ParagraphAnalyticsServiceImpl implements ParagraphAnalyticsService 
 	private List<String> getLongestWord(String paragraph) {
 		LOGGER.debug("Started process to find longest words in a paragraph");
 		List<String> longestWords = new ArrayList<>();
-		paragraph = paragraph.replace(".", " ");
+		paragraph = paragraph.replace(ParagraphAnalyticsUtil.FULLSTOP, ParagraphAnalyticsUtil.SPACE);
 		int paraLength = paragraph.length();
 		int startingIndex = 0, endingIndex = 0;
 		int maxLength = 0, maxStartindex = 0;
 		LOGGER.debug("Loop while input string is not empty");
 		while (endingIndex <= paraLength) {
-			if (endingIndex < paraLength && paragraph.charAt(endingIndex) != ' ' && paragraph.charAt(endingIndex) !=',') {
+			if (endingIndex < paraLength && paragraph.charAt(endingIndex) != ParagraphAnalyticsUtil.SPACEASCHAR
+					&& paragraph.charAt(endingIndex) != ParagraphAnalyticsUtil.COMMA) {
 				LOGGER.debug(
 						"Input char in at the position is not empty so increasing the ending index of the string by one");
 				endingIndex++;
@@ -100,8 +98,8 @@ public class ParagraphAnalyticsServiceImpl implements ParagraphAnalyticsService 
 
 		LOGGER.debug("Started process to find words count in a paragraph");
 		// get the length of each word
-		paragraph = paragraph.replace(".", " ");
-		paragraph = paragraph.replace(",", " ");
+		paragraph = paragraph.replace(ParagraphAnalyticsUtil.FULLSTOP, ParagraphAnalyticsUtil.SPACE);
+		paragraph = paragraph.replace(ParagraphAnalyticsUtil.COMMA, ParagraphAnalyticsUtil.SPACEASCHAR);
 		List<String> list = Stream.of(paragraph).map(word -> word.split("\\s+")).flatMap(Arrays::stream)
 				.collect(Collectors.toList());
 		LOGGER.debug("Completed process to convert paragraph to list of words using streams " + list);
@@ -109,18 +107,12 @@ public class ParagraphAnalyticsServiceImpl implements ParagraphAnalyticsService 
 		Map<String, Integer> wordCounter = list.stream()
 				.collect(Collectors.toMap(word -> word.toLowerCase(), word -> 1, Integer::sum));
 		LOGGER.debug("Completed process to convert list of words to map having word count " + wordCounter);
-		
-		Map<String, Integer> countByWordSorted = wordCounter.entrySet()
-	            .stream()
-	            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-	            .collect(Collectors.toMap(
-	                    Map.Entry::getKey,
-	                    Map.Entry::getValue,
-	                    (v1, v2) -> {
-	                        throw new IllegalStateException();
-	                    },
-	                    LinkedHashMap::new
-	            ));
+
+		Map<String, Integer> countByWordSorted = wordCounter.entrySet().stream()
+				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {
+					throw new IllegalStateException();
+				}, LinkedHashMap::new));
 
 		LOGGER.debug("Completed process to find words count in a paragraph");
 

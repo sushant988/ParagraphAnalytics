@@ -17,7 +17,7 @@ public class ParagraphAnalyticsExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<Object> handleAccessDeniedException(
     		AccessDeniedException ex, WebRequest request) {
         return new ResponseEntity<Object>(
-          "Access denied message here", new HttpHeaders(), HttpStatus.UNAUTHORIZED);
+          "Access denied message here",  HttpStatus.UNAUTHORIZED);
     }
      
 
