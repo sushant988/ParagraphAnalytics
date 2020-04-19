@@ -50,7 +50,7 @@ public class ParagraphAnalyticsServiceImpl implements ParagraphAnalyticsService 
 		int maxLength = 0, maxStartindex = 0;
 		LOGGER.debug("Loop while input string is not empty");
 		while (endingIndex <= paraLength) {
-			if (endingIndex < paraLength && paragraph.charAt(endingIndex) != ' ') {
+			if (endingIndex < paraLength && paragraph.charAt(endingIndex) != ' ' && paragraph.charAt(endingIndex) !=',') {
 				LOGGER.debug(
 						"Input char in at the position is not empty so increasing the ending index of the string by one");
 				endingIndex++;
@@ -101,7 +101,7 @@ public class ParagraphAnalyticsServiceImpl implements ParagraphAnalyticsService 
 		LOGGER.debug("Started process to find words count in a paragraph");
 		// get the length of each word
 		paragraph = paragraph.replace(".", " ");
-
+		paragraph = paragraph.replace(",", " ");
 		List<String> list = Stream.of(paragraph).map(word -> word.split("\\s+")).flatMap(Arrays::stream)
 				.collect(Collectors.toList());
 		LOGGER.debug("Completed process to convert paragraph to list of words using streams " + list);
