@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.company.paragraphanalytics.util.ParagraphAnalyticsUtil;
+
 @Component
 public class ParagraphAnalytics {
 
@@ -27,6 +29,11 @@ public class ParagraphAnalytics {
 	}
 
 	public List<String> getMostUsedWords() {
+		if (wordCount!=null && !wordCount.isEmpty()) {
+			Map.Entry<String, Integer> entry = wordCount.entrySet().iterator().next();
+			Integer mostUsedWordLength = entry.getValue();
+			return ParagraphAnalyticsUtil.getKeysBasedOnValue(wordCount, mostUsedWordLength);
+		}
 		return mostUsedWords;
 	}
 
