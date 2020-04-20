@@ -3,10 +3,10 @@ kind: Pod
 metadata:
   name: paragraphanalytics
   labels:
-    app: web
+    app: paragraphanalytics
 spec:
   containers:
-    - name: uses-private-image
+    - name: paragraphanalytics
       image: svaddaram/paragraphanalytics:latest
       imagePullPolicy: Always
       ports:

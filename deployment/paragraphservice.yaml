@@ -7,11 +7,10 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 65000
+  - port: 8080
     protocol: TCP
     targetPort: 65000
   selector:
     run: paragraphanalytics
-  externalIPs:
-    - 80.11.12.10
+ 
  
