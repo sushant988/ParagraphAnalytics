@@ -78,7 +78,7 @@ public class ParagraphAnalyticsServiceImplTest {
 	@Test
     public void testGetParagraphAnalytics_WithValidParams_ReturnsMostWordsResponse() {
 		
-		Paragraph para=	new Paragraph("This is an input string used to test the application. Spring boot rocks. test the app");
+		Paragraph para=	new Paragraph("This is an input string used to test the application . Spring boot rocks. test the app");
 		ParagraphAnalytics analytics=new ParagraphAnalytics();		
 		List<String> mostUsedWords=new ArrayList<>();
 		mostUsedWords.add("test");
