@@ -16,6 +16,9 @@ public class ParagraphAnalyticsUtil {
 	public static final String EMPTY = "";
 	public static final String SPACE = " ";
 	public static final String FULLSTOP = ".";
+	public static final String QUESTION_MARK = "?";
+	public static final char QUESTION_MARK_AS_CHAR = '?';
+	
 	
 	public static List<String> getKeysBasedOnValue(Map<String, Integer> map, Integer value) {
 		LOGGER.debug("Started process to find keys of the map having the highest word count "+value);

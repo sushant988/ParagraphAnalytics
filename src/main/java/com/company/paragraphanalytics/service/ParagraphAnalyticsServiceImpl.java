@@ -23,20 +23,7 @@ public class ParagraphAnalyticsServiceImpl implements ParagraphAnalyticsService 
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ParagraphanalyticsApplication.class);
 
-	private Integer getSentencesCount(String paragrah) {
-		LOGGER.debug("Started process to find number of sentences in a paragraph");
-		String sentenceDelimiter = ParagraphAnalyticsUtil.FULLSTOP;
-		int sentenceCounter = paragrah.length()
-				- paragrah.replace(sentenceDelimiter, ParagraphAnalyticsUtil.EMPTY).length();
-		LOGGER.debug("Number of . found in the paragrah are " + sentenceCounter);
-
-		if (paragrah.trim().endsWith(ParagraphAnalyticsUtil.FULLSTOP)) {
-			LOGGER.debug("Number of sentences found " + sentenceCounter);
-			return sentenceCounter;
-		}
-		LOGGER.debug("Paragraph not ending with full stop , thus increeasing counter by one ");
-		return ++sentenceCounter;
-	}
+	
 
 	private List<String> getLongestWord(String paragraph) {
 		LOGGER.debug("Started process to find longest words in a paragraph");
@@ -48,7 +35,7 @@ public class ParagraphAnalyticsServiceImpl implements ParagraphAnalyticsService 
 		LOGGER.debug("Loop while input string is not empty");
 		while (endingIndex <= paraLength) {
 			if (endingIndex < paraLength && paragraph.charAt(endingIndex) != ParagraphAnalyticsUtil.SPACEASCHAR
-					&& paragraph.charAt(endingIndex) != ParagraphAnalyticsUtil.COMMA) {
+					&& paragraph.charAt(endingIndex) != ParagraphAnalyticsUtil.COMMA && paragraph.charAt(endingIndex) != ParagraphAnalyticsUtil.QUESTION_MARK_AS_CHAR) {
 				LOGGER.debug(
 						"Input char in at the position is not empty so increasing the ending index of the string by one");
 				endingIndex++;
@@ -121,6 +108,21 @@ public class ParagraphAnalyticsServiceImpl implements ParagraphAnalyticsService 
 
 	private Integer getLength(String paragraph) {
 		return paragraph.trim().length();
+	}
+	
+	private Integer getSentencesCount(String paragrah) {
+		LOGGER.debug("Started process to find number of sentences in a paragraph");
+		String sentenceDelimiter = ParagraphAnalyticsUtil.FULLSTOP;
+		int sentenceCounter = paragrah.length()
+				- paragrah.replace(sentenceDelimiter, ParagraphAnalyticsUtil.EMPTY).replace(sentenceDelimiter, ParagraphAnalyticsUtil.QUESTION_MARK).length();
+		LOGGER.debug("Number of . found in the paragrah are " + sentenceCounter);
+
+		if (paragrah.trim().endsWith(ParagraphAnalyticsUtil.FULLSTOP)) {
+			LOGGER.debug("Number of sentences found " + sentenceCounter);
+			return sentenceCounter;
+		}
+		LOGGER.debug("Paragraph not ending with full stop , thus increeasing counter by one ");
+		return ++sentenceCounter;
 	}
 
 	@Override
