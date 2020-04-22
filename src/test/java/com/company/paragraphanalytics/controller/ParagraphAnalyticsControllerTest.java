@@ -1,4 +1,4 @@
-package com.company.paragraphanalytics;
+package com.company.paragraphanalytics.controller;
 
 
 import static org.mockito.Mockito.when;
